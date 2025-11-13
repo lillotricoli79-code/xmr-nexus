@@ -1,1 +1,12 @@
 
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#10d1b8"/>
+      <stop offset="100%" stop-color="#58a6ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="18" fill="#0b141a"/>
+  <circle cx="50" cy="50" r="28" fill="url(#g)"/>
+  <text x="50" y="56" font-size="26" text-anchor="middle" fill="#0b141a" font-family="Inter" font-weight="700">XMR</text>
+</svg>
