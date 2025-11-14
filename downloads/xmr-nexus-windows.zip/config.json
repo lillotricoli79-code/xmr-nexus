@@ -7,7 +7,7 @@
   "pools": [
     {
       "coin": "monero",
-      "url": "pool.moneroocean.stream:443",
+      "url": "127.0.0.1:3333",
       "user": "4ByeEKTJbi3faVNHTWEupmM1fdwEv95CqCqC7rCDdVhXDt4vj5E4FB1jUKxNAF6EHFHmuQhnHoXcUK84Nc4cQfmfKQ8zXo5FtT7DRdTumQ",
       "pass": "x",
       "tls": true,
