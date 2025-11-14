@@ -1,1 +1,36 @@
 
+
+
+{
+  "listen": "0.0.0.0:3333",
+  "workers": true,
+  "access-log-file": null,
+
+  "pools": [
+    {
+      "url": "pool.moneroocean.stream:443",
+      "user": "4ByeEKTJbi3faVNHTWEupmM1fdwEv95CqCqC7rCDdVhXDt4vj5E4FB1jUKxNAF6EHFHmuQhnHoXcUK84Nc4cQfmfKQ8zXo5FtT7DRdTumQ",
+      "pass": "x",
+      "tls": true
+    },
+    {
+      "url": "pool.hashvault.pro:443",
+      "user": "4ByeEKTJbi3faVNHTWEupmM1fdwEv95CqCqC7rCDdVhXDt4vj5E4FB1jUKxNAF6EHFHmuQhnHoXcUK84Nc4cQfmfKQ8zXo5FtT7DRdTumQ",
+      "pass": "x",
+      "tls": true
+    },
+    {
+      "url": "pool.supportxmr.com:443",
+      "user": "4ByeEKTJbi3faVNHTWEupmM1fdwEv95CqCqC7rCDdVhXDt4vj5E4FB1jUKxNAF6EHFHmuQhnHoXcUK84Nc4cQfmfKQ8zXo5FtT7DRdTumQ",
+      "pass": "x",
+      "tls": true
+    },
+    {
+      "url": "xmr.herominers.com:4444",
+      "user": "4ByeEKTJbi3faVNHTWEupmM1fdwEv95CqCqC7rCDdVhXDt4vj5E4FB1jUKxNAF6EHFHmuQhnHoXcUK84Nc4cQfmfKQ8zXo5FtT7DRdTumQ",
+      "pass": "x",
+      "tls": false
+    }
+  ]
+}
+
