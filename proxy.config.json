@@ -1,1 +1,35 @@
 
+{
+  "api": "http://79.19.99.100:8081/stats?token=lillo_api",
+
+  "pools": [
+    {
+      "name": "HashVault",
+      "url": "pool.hashvault.pro:443",
+      "tls": true
+    },
+    {
+      "name": "MoneroOcean",
+      "url": "pool.moneroocean.stream:443",
+      "tls": true
+    },
+    {
+      "name": "SupportXMR",
+      "url": "pool.supportxmr.com:443",
+      "tls": true
+    },
+    {
+      "name": "HeroMiners",
+      "url": "xmr.herominers.com:4444",
+      "tls": false
+    }
+  ],
+
+  "settings": {
+    "refreshInterval": 30,
+    "showWorkers": true,
+    "showHashrate": true,
+    "showShares": true,
+    "theme": "dark"
+  }
+}
