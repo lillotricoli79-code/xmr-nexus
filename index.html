@@ -1,1 +1,151 @@
 
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XMR Nexus Dashboard</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Font e icone -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Librerie JS esterne -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="theme-dark">
+  <!-- Header -->
+  <header class="header">
+    <div class="brand">
+      <img src="src/logo.svg" alt="Monero" class="brand-logo" />
+      <div class="brand-text">
+        <h1>XMR Nexus</h1>
+        <p>Dashboard avanzata per il mining di Monero</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="themeToggle" class="btn icon"><i class="fas fa-moon"></i><span>Dark</span></button>
+      <button id="shareLink" class="btn icon"><i class="fas fa-share-alt"></i><span>Condividi</span></button>
+      <span id="statusBadge" class="badge badge-warn">Demo</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Panoramica -->
+    <section class="card">
+      <div class="card-header"><h2><i class="fas fa-gauge-high"></i> Panoramica</h2></div>
+      <div class="stats-grid">
+        <div class="stat"><span class="stat-label"><i class="fas fa-bolt"></i> Hashrate</span><span class="stat-value" id="hashrate">0 H/s</span></div>
+        <div class="stat"><span class="stat-label"><i class="fas fa-server"></i> Pool</span><span class="stat-value" id="pool">N/A</span></div>
+        <div class="stat"><span class="stat-label"><i class="fas fa-users"></i> Worker</span><span class="stat-value" id="workers">0</span></div>
+        <div class="stat"><span class="stat-label"><i class="fas fa-check-circle"></i> Accepted</span><span class="stat-value" id="accepted">0</span></div>
+        <div class="stat"><span class="stat-label"><i class="fas fa-times-circle"></i> Rejected</span><span class="stat-value" id="rejected">0</span></div>
+        <div class="stat"><span class="stat-label"><i class="fas fa-clock"></i> Uptime</span><span class="stat-value" id="uptime">00:00:00</span></div>
+      </div>
+      <div id="statusMsg" class="status-msg"></div>
+    </section>
+
+    <!-- Indirizzo Monero -->
+    <section class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-wallet"></i> Indirizzo Monero</h2>
+        <div class="card-tools">
+          <button id="btnCopyAddress" class="btn"><i class="fas fa-copy"></i> Copia</button>
+          <button id="btnQrToggle" class="btn"><i class="fas fa-qrcode"></i> QR</button>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="control-row">
+          <label class="control flex-1">
+            <span class="control-label">Il tuo indirizzo XMR</span>
+            <input id="xmrAddressInput" class="input" type="text" placeholder="Inserisci indirizzo Monero (44...)" />
+          </label>
+          <button id="btnSaveAddress" class="btn"><i class="fas fa-save"></i> Salva</button>
+        </div>
+        <div class="address-row">
+          <span class="address-label">Indirizzo attivo:</span>
+          <span id="xmrAddressLabel" class="mono"></span>
+        </div>
+        <div id="qrWrap" class="qr-wrap" hidden>
+          <canvas id="qrCanvas" width="240" height="240"></canvas>
+          <div class="qr-note">Scansiona per condividere il tuo indirizzo</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controlli API -->
+    <section class="card">
+      <div class="card-header"><h2><i class="fas fa-sliders"></i> Controlli</h2></div>
+      <div class="controls">
+        <div class="control-row">
+          <label class="control flex-1">
+            <span class="control-label">Endpoint API</span>
+            <input id="apiInput" class="input" type="text" placeholder="http://0.0.0.0:8081/stats?access-token=123456" />
+          </label>
+          <button id="btnApiApply" class="btn"><i class="fas fa-link"></i> Applica API</button>
+          <button id="btnRefresh" class="btn"><i class="fas fa-rotate-right"></i> Aggiorna</button>
+          <button id="btnExportCsv" class="btn"><i class="fas fa-file-csv"></i> Export CSV</button>
+          <span class="api-label">API attiva: <strong id="apiUrlLabel"></strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pool -->
+    <section class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-network-wired"></i> Pool</h2>
+        <div class="card-tools">
+          <span class="api-label">Pool corrente: <strong id="currentPoolLabel">N/A</strong></span>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="control-row">
+          <label class="control flex-1">
+            <span class="control-label">Seleziona pool</span>
+            <select id="poolSelect" class="input">
+              <option value="moneroocean.stream:10001">MoneroOcean</option>
+              <option value="xmr-eu1.nanopool.org:14444">Nanopool EU</option>
+              <option value="xmr-eu2.hashvault.pro:5555">HashVault EU</option>
+              <option value="pool.minexmr.com:4444">MineXMR</option>
+              <option value="custom">Custom…</option>
+            </select>
+          </label>
+          <label class="control flex-1" id="customPoolWrap" hidden>
+            <span class="control-label">Pool custom</span>
+            <input id="customPoolInput" class="input" type="text" placeholder="host:port" />
+          </label>
+          <label class="control flex-1">
+            <span class="control-label">Protocollo</span>
+            <select id="poolProto" class="input">
+              <option value="stratum+tcp">stratum+tcp</option>
+              <option value="stratum+ssl">stratum+ssl</option>
+            </select>
+          </label>
+          <button id="btnApplyPool" class="btn"><i class="fas fa-plug"></i> Applica pool</button>
+        </div>
+        <div class="control-row">
+          <label class="control flex-1">
+            <span class="control-label">Pass/ref</span>
+            <input id="poolPassInput" class="input" type="text" placeholder="x o ref=nome" />
+          </label>
+          <button id="btnSavePoolPreset" class="btn"><i class="fas fa-bookmark"></i> Salva preset</button>
+          <button id="btnClearPresets" class="btn"><i class="fas fa-trash"></i> Cancella preset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download pacchetti miner -->
+    <section class="card">
+      <div class="card-header"><h2><i class="fas fa-download"></i> Download pacchetti miner</h2></div>
+      <div class="packages-grid">
+        <div class="pkg">
+          <h3>xmr-stak (Windows)</h3>
+          <button id="dlStakWin" class="btn"><i class="fas fa-file-zipper"></i> Scarica .zip</button>
+        </div>
+        <div class="pkg">
+          <h3>xmrig (Windows)</h3>
+          <button id="dlRigWin" class="btn"><i class="fas fa-file-zipper"></i>
