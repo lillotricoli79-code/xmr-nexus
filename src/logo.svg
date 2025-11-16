@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256"
+     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Monero logo">
+  <!-- cerchio arancione -->
+  <circle cx="128" cy="128" r="120" fill="#ff6600"/>
+  <!-- parte superiore bianca -->
+  <path d="M128 40a88 88 0 0 1 88 88h-40V88l-48 48-48-48v40H40a88 88 0 0 1 88-88z"
+        fill="#ffffff"/>
+  <!-- parte inferiore grigia -->
+  <path d="M40 128h40v40h32v-40h32v40h32v-40h40a88 88 0 0 1-88 88 88 88 0 0 1-88-88z"
+        fill="#4c4c4c"/>
+</svg>
