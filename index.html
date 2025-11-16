@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -22,6 +19,7 @@
   <!-- Header -->
   <header class="header">
     <div class="brand">
+      <img src="src/logo.svg" alt="Monero" class="brand-logo" />
       <div class="brand-text">
         <h1>XMR Nexus</h1>
         <p>Dashboard avanzata per il mining di Monero</p>
@@ -49,7 +47,35 @@
       <div id="statusMsg" class="status-msg"></div>
     </section>
 
-    <!-- Controlli -->
+    <!-- Indirizzo Monero -->
+    <section class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-wallet"></i> Indirizzo Monero</h2>
+        <div class="card-tools">
+          <button id="btnCopyAddress" class="btn"><i class="fas fa-copy"></i> Copia</button>
+          <button id="btnQrToggle" class="btn"><i class="fas fa-qrcode"></i> QR</button>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="control-row">
+          <label class="control flex-1">
+            <span class="control-label">Il tuo indirizzo XMR</span>
+            <input id="xmrAddressInput" class="input" type="text" placeholder="Inserisci indirizzo Monero (44...)" />
+          </label>
+          <button id="btnSaveAddress" class="btn"><i class="fas fa-save"></i> Salva</button>
+        </div>
+        <div class="address-row">
+          <span class="address-label">Indirizzo attivo:</span>
+          <span id="xmrAddressLabel" class="mono"></span>
+        </div>
+        <div id="qrWrap" class="qr-wrap" hidden>
+          <canvas id="qrCanvas" width="240" height="240"></canvas>
+          <div class="qr-note">Scansiona per condividere il tuo indirizzo</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controlli API -->
     <section class="card">
       <div class="card-header"><h2><i class="fas fa-sliders"></i> Controlli</h2></div>
       <div class="controls">
@@ -60,68 +86,64 @@
           </label>
           <button id="btnApiApply" class="btn"><i class="fas fa-link"></i> Applica API</button>
           <button id="btnRefresh" class="btn"><i class="fas fa-rotate-right"></i> Aggiorna</button>
+          <button id="btnExportCsv" class="btn"><i class="fas fa-file-csv"></i> Export CSV</button>
           <span class="api-label">API attiva: <strong id="apiUrlLabel"></strong></span>
         </div>
       </div>
     </section>
 
-    <!-- Grafici -->
+    <!-- Pool -->
     <section class="card">
       <div class="card-header">
-        <h2><i class="fas fa-chart-line"></i> Hashrate nel tempo</h2>
+        <h2><i class="fas fa-network-wired"></i> Pool</h2>
         <div class="card-tools">
-          <select id="rangeSelect">
-            <option value="40">Ultimi 40 punti</option>
-            <option value="80">Ultimi 80 punti</option>
-            <option value="120">Ultimi 120 punti</option>
-          </select>
-          <button id="btnClearChart" class="btn"><i class="fas fa-broom"></i> Pulisci</button>
-          <button id="btnUnit" class="btn"><i class="fas fa-arrows-rotate"></i> Unità H/s</button>
+          <span class="api-label">Pool corrente: <strong id="currentPoolLabel">N/A</strong></span>
         </div>
       </div>
-      <canvas id="hashrateChart"></canvas>
-    </section>
-
-    <section class="card">
-      <div class="card-header"><h2><i class="fas fa-chart-area"></i> Shares nel tempo</h2></div>
-      <canvas id="sharesTimeChart"></canvas>
-    </section>
-
-    <section class="card">
-      <div class="card-header"><h2><i class="fas fa-chart-pie"></i> Shares snapshot</h2></div>
-      <canvas id="sharesChart"></canvas>
-    </section>
-
-    <!-- Worker -->
-    <section class="card">
-      <div class="card-header">
-        <h2><i class="fas fa-list"></i> Dettaglio worker</h2>
-        <div class="card-tools">
-          <input id="workerFilter" class="input" type="text" placeholder="Filtra per nome…" />
+      <div class="controls">
+        <div class="control-row">
+          <label class="control flex-1">
+            <span class="control-label">Seleziona pool</span>
+            <select id="poolSelect" class="input">
+              <option value="moneroocean.stream:10001">MoneroOcean</option>
+              <option value="xmr-eu1.nanopool.org:14444">Nanopool EU</option>
+              <option value="xmr-eu2.hashvault.pro:5555">HashVault EU</option>
+              <option value="pool.minexmr.com:4444">MineXMR</option>
+              <option value="custom">Custom…</option>
+            </select>
+          </label>
+          <label class="control flex-1" id="customPoolWrap" hidden>
+            <span class="control-label">Pool custom</span>
+            <input id="customPoolInput" class="input" type="text" placeholder="host:port" />
+          </label>
+          <label class="control flex-1">
+            <span class="control-label">Protocollo</span>
+            <select id="poolProto" class="input">
+              <option value="stratum+tcp">stratum+tcp</option>
+              <option value="stratum+ssl">stratum+ssl</option>
+            </select>
+          </label>
+          <button id="btnApplyPool" class="btn"><i class="fas fa-plug"></i> Applica pool</button>
+        </div>
+        <div class="control-row">
+          <label class="control flex-1">
+            <span class="control-label">Pass/ref</span>
+            <input id="poolPassInput" class="input" type="text" placeholder="x o ref=nome" />
+          </label>
+          <button id="btnSavePoolPreset" class="btn"><i class="fas fa-bookmark"></i> Salva preset</button>
+          <button id="btnClearPresets" class="btn"><i class="fas fa-trash"></i> Cancella preset</button>
         </div>
       </div>
-      <div class="table-wrap">
-        <table class="table" id="workersTable">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Hashrate</th>
-              <th>Accepted</th>
-              <th>Rejected</th>
-              <th>Ultimo update</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
     </section>
-  </main>
 
-  <footer class="footer">
-    <span>Monero only • XMR Nexus</span>
-  </footer>
-
-  <!-- JS -->
-  <script src="App.js"></script>
-</body>
-</html>
+    <!-- Download pacchetti miner -->
+    <section class="card">
+      <div class="card-header"><h2><i class="fas fa-download"></i> Download pacchetti miner</h2></div>
+      <div class="packages-grid">
+        <div class="pkg">
+          <h3>xmr-stak (Windows)</h3>
+          <button id="dlStakWin" class="btn"><i class="fas fa-file-zipper"></i> Scarica .zip</button>
+        </div>
+        <div class="pkg">
+          <h3>xmrig (Windows)</h3>
+          <button id="dlRigWin" class="btn"><i class="fas fa-file-zipper"></i>
