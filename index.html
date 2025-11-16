@@ -1,1 +1,69 @@
 
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>XMR Nexus Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="theme-dark">
+  <header>
+    <h1>XMR Nexus Dashboard</h1>
+    <p>Monitoraggio miner via Cloudflare Worker</p>
+  </header>
+
+  <main>
+    <section id="overview">
+      <h2>Panoramica</h2>
+      <div class="stats">
+        <div><strong>Hashrate:</strong> <span id="hashrate">0</span></div>
+        <div><strong>Workers:</strong> <span id="workers">0</span></div>
+        <div><strong>Accepted:</strong> <span id="accepted">0</span></div>
+        <div><strong>Rejected:</strong> <span id="rejected">0</span></div>
+        <div><strong>Pool:</strong> <span id="pool">N/A</span></div>
+        <div><strong>Uptime:</strong> <span id="uptime">00:00:00</span></div>
+      </div>
+      <div id="statusMsg"></div>
+      <span id="statusBadge" class="badge">Idle</span>
+    </section>
+
+    <section id="charts">
+      <h2>Grafici</h2>
+      <canvas id="hashrateChart"></canvas>
+      <canvas id="sharesTimeChart"></canvas>
+      <canvas id="sharesChart"></canvas>
+    </section>
+
+    <section id="workers">
+      <h2>Dettaglio Worker</h2>
+      <input id="workerFilter" placeholder="Filtra per nome...">
+      <table id="workersTable">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Hashrate</th>
+            <th>Accepted</th>
+            <th>Rejected</th>
+            <th>Ultimo update</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="export">
+      <button onclick="exportCSV()">📥 Esporta CSV</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Powered by Monero • XMR Nexus</p>
+    <button id="themeToggle"><i class="fas fa-moon"></i><span>Dark</span></button>
+    <button id="shareLink">🔗 Condividi link</button>
+  </footer>
+
+  <script src="App.js"></script>
+</body>
+</html>
